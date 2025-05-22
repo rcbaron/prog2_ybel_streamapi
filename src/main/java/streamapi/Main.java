@@ -103,8 +103,8 @@ public class Main {
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
             return reader.lines()
-                .filter(line -> line.startsWith("a") && line.length() >= 2)
-                .collect(Collectors.joining("\n"));
+                    .filter(line -> line.startsWith("a") && line.length() >= 2)
+                    .collect(Collectors.joining("\n"));
 
         } catch (IOException e) {
             System.err.println("Ouch, that didn't worked: " + e.getMessage());
