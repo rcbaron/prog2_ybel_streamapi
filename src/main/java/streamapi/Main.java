@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.*;
 
 /** Starter for the stream api task. */
 public class Main {
@@ -77,7 +78,7 @@ public class Main {
     private static InputStream getResourceAsStream(String path) {
         InputStream stream = Main.class.getClassLoader().getResourceAsStream("streamapi/" + path);
         if (stream == null) {
-            throw new IllegalArgumentException("File not found in path: " + path);
+            System.err.println("File not found!: " + path);
         }
         return stream;
     }
@@ -93,31 +94,21 @@ public class Main {
      * @return String of all matching lines, separated by {@code "\n"}
      */
     public static String resources(String path) {
-        // TODO
-        StringBuilder result = new StringBuilder();
-
         try (InputStream stream = getResourceAsStream(path)) {
-            BufferedReader r = new BufferedReader(new InputStreamReader(stream));
-
-            List<String> allLines = new ArrayList<>();
-
-            String newLine = r.readLine();
-            while (newLine != null) {
-                allLines.add(newLine);
-                newLine = r.readLine();
+            if (stream == null) {
+                System.err.println("Oops, something went wrong: " + path);
+                return "";
             }
 
-            for (int i = 1; i < allLines.size(); i++) {
-                String s = allLines.get(i);
-                if (s.startsWith("a") && !(s.length() < 2)) {
-                    result.append(allLines.get(i)).append("\n");
-                }
-            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+            return reader.lines()
+                .filter(line -> line.startsWith("a") && line.length() >= 2)
+                .collect(Collectors.joining("\n"));
 
         } catch (IOException e) {
-            System.err.println("Ouch, that didn't work: \n" + e.getMessage());
+            System.err.println("Ouch, that didn't worked: " + e.getMessage());
+            return "";
         }
-
-        return result.toString();
     }
 }
