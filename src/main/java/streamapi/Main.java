@@ -2,6 +2,7 @@ package streamapi;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /** Starter for the stream api task. */
 public class Main {
@@ -15,6 +16,14 @@ public class Main {
         // Task I: Students
 
         // Task II: Set of ECTS of all IFM students
+        System.out.println(
+                ifmCps(
+                        List.of(
+                                new Student("A", 35, Enrollment.IFM),
+                                new Student("B", 35, Enrollment.IFM),
+                                new Student("C", 60, Enrollment.ELT),
+                                new Student("D", 45, Enrollment.ARCH),
+                                new Student("E", 80, Enrollment.IFM))));
 
         // Task III: Random
 
@@ -43,9 +52,14 @@ public class Main {
      * @param studentList List of students
      * @return Set of credit points of all IFM students
      */
+
+    // returns the cps of all students with the attribute IFM in a Set,
+    // Sets don't have duplicate values.
     public static Set<Integer> ifmCps(List<Student> studentList) {
-        // TODO
-        throw new UnsupportedOperationException();
+        return studentList.stream()
+                .filter(Student::isIFM)
+                .map(Student::cps)
+                .collect(Collectors.toSet());
     }
 
     /**
