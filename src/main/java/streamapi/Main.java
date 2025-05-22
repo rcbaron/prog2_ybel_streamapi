@@ -72,9 +72,14 @@ public class Main {
      * @param path Name of the file to be accessed within the resource folder.
      * @return An open {@link InputStream} for the resource file
      */
+
+    // streamapi directory under resources is defined as the resource directory
     private static InputStream getResourceAsStream(String path) {
-        // TODO
-        throw new UnsupportedOperationException();
+        InputStream stream = Main.class.getClassLoader().getResourceAsStream("streamapi/" + path);
+        if (stream == null) {
+            throw new IllegalArgumentException("File not found in path: " + path);
+        }
+        return stream;
     }
 
     /**
