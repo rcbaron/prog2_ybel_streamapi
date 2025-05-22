@@ -56,7 +56,10 @@ public class Main {
     // returns the cps of all students with the attribute IFM in a Set,
     // Sets don't have duplicate values.
     public static Set<Integer> ifmCps(List<Student> studentList) {
-       return studentList.stream().filter(Student::isIFM).map(Student::cps).collect(Collectors.toSet());
+        return studentList.stream()
+                .filter(Student::isIFM)
+                .map(Student::cps)
+                .collect(Collectors.toSet());
     }
 
     /**
